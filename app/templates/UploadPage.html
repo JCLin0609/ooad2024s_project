@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload page{% endblock %}
+
+{% block content %}
+    <h1 style="padding-top: 50px;">Upload Page</h1>
+    <input type="text" id="userInput" placeholder="請輸入訊息">
+    <button onclick="displayMessage()">顯示訊息</button>
+    <div id="message"></div>
+
+    <script>
+        function displayMessage() {
+            var input = document.getElementById("userInput").value;
+            var message = document.getElementById("message");
+            message.innerHTML = "你輸入的訊息是：" + input;
+        }
+    </script>
+{% endblock %}

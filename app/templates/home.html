@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* 固定按钮在页面顶部 */
+        .button-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        /* 按钮样式 */
+        .button-container button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button onclick="window.location.href='/upload'">上傳待測程式</button>
+        <button onclick="window.location.href='/page2'">轉換待測目標</button>
+        <button onclick="window.location.href='/page3'">查看執行結果</button>
+        <button onclick="window.location.href='/page4'">重現測試案例</button>
+    </div>
+
+    <div id="content">
+        <h1 style="padding-top: 50px;">歡迎來到測試自動化系統！</h1>
+        <p>歡迎來到測試自動化系統！</p>
+        <p>請選擇您要進行的操作。</p>
+    </div>
+
+    <script>
+        function loadPage(url) {
+            $.get(url, function(data) {
+                $('#content').html(data);
+            });
+        }
+    </script>
+</body>
+</html>
