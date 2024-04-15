@@ -17,7 +17,14 @@
     </script>
 
     <body>
-        <h1>上傳檔案</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <p>上傳檔案</p>
         <form action="{{ url_for('afl_controller.upload') }}" method="post" enctype="multipart/form-data">
             <input type="file" name="file">
             <input type="submit" value="上傳">
