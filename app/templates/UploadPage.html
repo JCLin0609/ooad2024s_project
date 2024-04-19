@@ -4,17 +4,6 @@
 
 {% block content %}
     <h1 style="padding-top: 50px;">Upload Page</h1>
-    <input type="text" id="userInput" placeholder="請輸入訊息">
-    <button onclick="displayMessage()">顯示訊息</button>
-    <div id="message"></div>
-
-    <script>
-        function displayMessage() {
-            var input = document.getElementById("userInput").value;
-            var message = document.getElementById("message");
-            message.innerHTML = "你輸入的訊息是：" + input;
-        }
-    </script>
 
     <body>
         {% with messages = get_flashed_messages() %}
@@ -26,6 +15,14 @@
         {% endwith %}
         <p>上傳檔案</p>
         <form action="{{ url_for('afl_controller.upload') }}" method="post" enctype="multipart/form-data">
+            <label for="duration" style="font-size: smaller;">執行時間:</label>
+            <select name="duration" id="duration">
+                <option value="1">1hr</option>
+                <option value="3">3hr</option>
+                <option value="6">6hr</option>
+                <option value="24">24hr</option>
+            </select>
+            <br>
             <input type="file" name="file">
             <input type="submit" value="上傳">
         </form>

@@ -16,13 +16,17 @@ def upload():
         return render_template('UploadPage.html')
 
     file = request.files['file']
+    duration = request.form.get('duration')
+
     if file:
         print(f'Uploading file: {file.filename}')
-        result = aflService.uploadFuzzTarget(file)
+        result = aflService.uploadFuzzTarget(file, duration)
+ 
         if result:
-            flash(f'{file.filename} 上傳成功')
+            flash(f'{file.filename} 上傳成功 (Run for {duration} hrs)')
         else:
-            flash(f'{file.filename} 上傳失敗')
+            flash(f'{file.filename} 上傳失敗 (Run for {duration} hrs)')
+
     return redirect(url_for('afl_controller.upload'))
 
 
