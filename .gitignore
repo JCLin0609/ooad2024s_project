@@ -18,3 +18,5 @@ build/
 
 # Pipenv files
 Pipfile.lock
+
+fuzz_targets/*

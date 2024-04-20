@@ -13,3 +13,15 @@ class FuzzConfig:
             with open(f"{self.targetFolder}/config.txt", "w") as file:
                 for key, value in self.configParams.items():
                     file.write(f"{key}: {value}\n")
+    
+    # Static method to get config persistence
+    @classmethod
+    def getConfigPersistence(cls, targetFolder: str) -> Dict[str, str]:
+        configParams = {}
+        configFilePath = f"{targetFolder}/config.txt"
+        if os.path.exists(configFilePath):
+            with open(configFilePath, "r") as file:
+                for line in file:
+                    key, value = line.strip().split(": ")
+                    configParams[key] = value
+        return configParams

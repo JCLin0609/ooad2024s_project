@@ -33,6 +33,13 @@ def upload():
 def observe():
     if request.method == 'GET':
         targetNames = aflService.observeFuzzTarget()
-        return render_template('ObservePage.html', targetNames=targetNames)
+        currentTargetName = aflService.current_target.name if aflService.current_target else None
+        return render_template('ObservePage.html', targetNames=targetNames, currentTargetName=currentTargetName)
+    
+@bp.route('/execute', methods=['POST'])
+def execute():
+    targetName = request.form.get('targetName')
+    aflService.startRunningTarget(targetName)
+    return redirect(url_for('afl_controller.observe'))
     
 aflService = afl_service.FuzzService()

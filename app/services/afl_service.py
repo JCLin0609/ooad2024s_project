@@ -11,6 +11,7 @@ class FuzzService:
         self.jane = user.User('Jane', 25)
         self.jclin = user.User('Jclin', 24)
         self.fuzz_target = []
+        self.current_target = None
 
     # Test method
     def users(self):
@@ -30,7 +31,9 @@ class FuzzService:
                 return False
 
             os.makedirs(target_folder)
-            file.save(os.path.join(target_folder, file.filename))
+            target_path = os.path.join(target_folder, file.filename)
+            file.save(target_path)
+            os.chmod(target_path, 0o777)
             
             config = {
                 "name": file.filename,
@@ -51,8 +54,35 @@ class FuzzService:
         targetNameList = [name for name in os.listdir(upload_folder) if os.path.isdir(os.path.join(upload_folder, name))]
         return targetNameList
 
-    def transferRunningTarget(self) -> bool:
-        pass
+    def startRunningTarget(self, targetName) -> bool:
+        try:
+            if(self.current_target is not None):
+                self.current_target.stop()
+                self.current_target = None
+
+            upload_folder = current_app.config['UPLOAD_FOLDER']
+            target_folder = os.path.join(upload_folder, targetName)
+            if not os.path.exists(target_folder):
+                print(f"Folder {target_folder} does not exist.")
+                return False
+            
+            target = self.getfuzzTargetsByName(targetName)
+            if target is None:
+                config = fuzzConfig.FuzzConfig.getConfigPersistence(fuzzConfig.FuzzConfig, target_folder)
+                AflConfig = fuzzConfig.FuzzConfig(config, target_folder)
+
+                new_target = fuzzTarget.FuzzTarget(targetName, target_folder, AflConfig)
+                self.fuzz_target.append(new_target)
+                target = new_target
+
+            target.run()
+            self.current_target = target
+
+            return True
+        except Exception as e:
+            print(f"Error transferring running target: {e}")
+            return False
+
 
     def replayFuzzTarget(self) -> None:
         pass

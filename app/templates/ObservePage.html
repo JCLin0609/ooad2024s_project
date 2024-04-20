@@ -14,11 +14,29 @@
             {% endif %}
         {% endwith %}
         
-        {% for targetName in targetNames %}
-            <p style="display: inline;">{{ targetName }}</p>
-            <button style="float: right;" onclick="window.location.href='/target/{{ targetName }}'">Go to {{ targetName }}</button>
-            <br>
-        {% endfor %}
+        <table>
+            <tr>
+                <th>名稱</th>
+                <th style="min-width: 400px;">正在執行</th>
+                <th>查看詳細狀態</th>
+                <th style="min-width: 200px;">執行</th>
+            </tr>
+            </tr>
+            {% for targetName in targetNames %}
+                <tr>
+                    <td>{{ targetName }}</td>
+                    <td style="min-width: 500px; text-align: center;">{% if targetName == currentTargetName %}是{% endif %}</td>
+                    <td><a href="/target/{{ targetName }}">查看詳細狀態</a></td>
+                    <td style="min-width: 200px; text-align: center;">
+                        <form method="POST" action="/execute">
+                            <input type="hidden" name="targetName" value="{{ targetName }}">
+                            <button type="submit" style="min-width: 100px; min-height: 50px;">執行</button>
+                        </form>
+                    </td>
+                </tr>
+                </tr>
+            {% endfor %}
+        </table>
 
         </form>
     </body>
