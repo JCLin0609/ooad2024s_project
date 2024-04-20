@@ -59,7 +59,6 @@ class FuzzService:
             if(self.current_target is not None):
                 self.current_target.stop()
                 self.current_target = None
-
             upload_folder = current_app.config['UPLOAD_FOLDER']
             target_folder = os.path.join(upload_folder, targetName)
             if not os.path.exists(target_folder):
@@ -68,16 +67,13 @@ class FuzzService:
             
             target = self.getfuzzTargetsByName(targetName)
             if target is None:
-                config = fuzzConfig.FuzzConfig.getConfigPersistence(fuzzConfig.FuzzConfig, target_folder)
+                config = fuzzConfig.FuzzConfig.getConfigPersistence(target_folder)
                 AflConfig = fuzzConfig.FuzzConfig(config, target_folder)
-
                 new_target = fuzzTarget.FuzzTarget(targetName, target_folder, AflConfig)
                 self.fuzz_target.append(new_target)
                 target = new_target
-
             target.run()
             self.current_target = target
-
             return True
         except Exception as e:
             print(f"Error transferring running target: {e}")
