@@ -1,4 +1,3 @@
-from app.models import user
 from app.models import fuzzTarget
 from app.models import fuzzConfig
 
@@ -7,15 +6,8 @@ import os
 
 class FuzzService:
     def __init__(self):
-        self.john = user.User('John', 30)
-        self.jane = user.User('Jane', 25)
-        self.jclin = user.User('Jclin', 24)
         self.fuzz_target = []
         self.current_target = None
-
-    # Test method
-    def users(self):
-        return [self.john, self.jane, self.jclin]
     
     def getfuzzTargetsByName(self, name):
         for target in self.fuzz_target:
@@ -72,8 +64,11 @@ class FuzzService:
                 new_target = fuzzTarget.FuzzTarget(targetName, target_folder, AflConfig)
                 self.fuzz_target.append(new_target)
                 target = new_target
+
             target.run()
+            
             self.current_target = target
+            
             return True
         except Exception as e:
             print(f"Error transferring running target: {e}")

@@ -19,9 +19,11 @@ class FuzzConfig:
     def getConfigPersistence(cls, targetFolder: str) -> Dict[str, str]:
         configParams = {}
         configFilePath = f"{targetFolder}/config.txt"
+
         if os.path.exists(configFilePath):
             with open(configFilePath, "r") as file:
                 for line in file:
                     key, value = line.strip().split(": ")
                     configParams[key] = value
+                    
         return configParams

@@ -3,12 +3,9 @@ from app.services import afl_service
 
 bp = Blueprint('afl_controller', __name__)
 
-
 @bp.route('/')
 def index():
-    users = aflService.users()
-    return render_template('index.html', users=users)
-
+    return render_template('index.html')
 
 @bp.route('/upload', methods=['GET', 'POST'])
 def upload():
