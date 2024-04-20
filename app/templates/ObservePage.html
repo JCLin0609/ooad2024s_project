@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Observe page{% endblock %}
+
+{% block content %}
+    <h1 style="padding-top: 50px;">Observe Page</h1>
+
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p><br>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% for targetName in targetNames %}
+            <p style="display: inline;">{{ targetName }}</p>
+            <button style="float: right;" onclick="window.location.href='/target/{{ targetName }}'">Go to {{ targetName }}</button>
+            <br>
+        {% endfor %}
+
+        </form>
+    </body>
+
+{% endblock %}

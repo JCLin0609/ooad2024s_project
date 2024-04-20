@@ -29,5 +29,10 @@ def upload():
 
     return redirect(url_for('afl_controller.upload'))
 
-
+@bp.route('/observe', methods=['GET', 'POST'])
+def observe():
+    if request.method == 'GET':
+        targetNames = aflService.observeFuzzTarget()
+        return render_template('ObservePage.html', targetNames=targetNames)
+    
 aflService = afl_service.FuzzService()

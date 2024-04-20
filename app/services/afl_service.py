@@ -46,6 +46,11 @@ class FuzzService:
             print(f"Error uploading file: {e}")
             return False
 
+    def observeFuzzTarget(self) -> list:
+        upload_folder = current_app.config['UPLOAD_FOLDER']
+        targetNameList = [name for name in os.listdir(upload_folder) if os.path.isdir(os.path.join(upload_folder, name))]
+        return targetNameList
+
     def transferRunningTarget(self) -> bool:
         pass
 
