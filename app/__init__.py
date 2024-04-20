@@ -12,6 +12,6 @@ def create_app():
     
     # 配置文件上傳的文件夾位置和文件大小限制
     app.config['UPLOAD_FOLDER'] = 'fuzz_targets/'
-    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 限制16MB
+    app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024  # 限制16MB
 
     return app

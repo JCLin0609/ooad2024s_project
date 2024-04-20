@@ -1,5 +1,7 @@
 from app.models import user
 from app.models import fuzzTarget
+from app.models import fuzzConfig
+
 from flask import current_app
 import os
 
@@ -30,7 +32,15 @@ class FuzzService:
             os.makedirs(target_folder)
             file.save(os.path.join(target_folder, file.filename))
             
-            self.fuzz_target.append(fuzzTarget.FuzzTarget(file.filename, target_folder))
+            config = {
+                "name": file.filename,
+                "duration": duration,
+            }
+            AflConfig = fuzzConfig.FuzzConfig(config, target_folder)
+
+            new_target = fuzzTarget.FuzzTarget(file.filename, target_folder, AflConfig)
+            self.fuzz_target.append(new_target)
+
             return True
         except Exception as e:
             print(f"Error uploading file: {e}")
