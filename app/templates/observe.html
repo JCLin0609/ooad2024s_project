@@ -4,7 +4,6 @@
 
 {% block content %}
     <h1 style="padding-top: 50px;">Observe Page</h1>
-
     <body>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -37,8 +36,6 @@
                 </tr>
             {% endfor %}
         </table>
-
-        </form>
     </body>
 
 {% endblock %}

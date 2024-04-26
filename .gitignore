@@ -20,3 +20,11 @@ build/
 Pipfile.lock
 
 fuzz_targets/*
+
+# Ignore everything in the example_target dir
+example_target/*
+# Except for afl_test1 and README.md
+!example_target/afl_test1
+!README.md
+
+./AFLplusplus/*

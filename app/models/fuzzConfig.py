@@ -1,29 +1,28 @@
-from typing import Dict
-import os
+from pathlib import Path
 
-# 定義 FuzzConfig 類別
+# Define FuzzConfig class
+
+
 class FuzzConfig:
-    def __init__(self, configParams: Dict[str, str], targetFolder: str):
-        self.configParams = configParams
-        self.targetFolder = targetFolder
+    def __init__(self, config_params: dict[str, str], target_folder: str):
+        self.config_params = config_params
+        self.target_folder = target_folder
         self.setConfigPersistence()
-        
-    def setConfigPersistence(self) -> None:
-        if not os.path.exists(f"{self.targetFolder}/config.txt"):
-            with open(f"{self.targetFolder}/config.txt", "w") as file:
-                for key, value in self.configParams.items():
-                    file.write(f"{key}: {value}\n")
-    
-    # Static method to get config persistence
-    @classmethod
-    def getConfigPersistence(cls, targetFolder: str) -> Dict[str, str]:
-        configParams = {}
-        configFilePath = f"{targetFolder}/config.txt"
 
-        if os.path.exists(configFilePath):
-            with open(configFilePath, "r") as file:
+    def setConfigPersistence(self) -> None:
+        config_file = Path(self.target_folder) / "config.txt"
+        if not config_file.exists():
+            with config_file.open("w") as file:
+                for key, value in self.config_params.items():
+                    file.write(f"{key}: {value}\n")
+
+    @classmethod
+    def getConfigPersistence(cls, target_folder: str) -> dict[str, str]:
+        config_params = {}
+        config_file = Path(target_folder) / "config.txt"
+        if config_file.exists():
+            with config_file.open("r") as file:
                 for line in file:
                     key, value = line.strip().split(": ")
-                    configParams[key] = value
-                    
-        return configParams
+                    config_params[key] = value
+        return config_params
