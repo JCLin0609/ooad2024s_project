@@ -1,38 +1,30 @@
+from pathlib import Path
 from app.models.fuzzConfig import FuzzConfig
-
-import subprocess
-import shlex
-import os
-
-# 定義 FuzzTarget 類別
+from app.models.fuzzResult import FuzzResult
+from app.models.fuzzStatus import FuzzStatus
+import app.helper.afl_command_helper as afl_command_helper
 
 
 class FuzzTarget:
-    def __init__(self, name: str, binaryPath: str, fuzzConfig: FuzzConfig):
-        self.name = name
-        self.binaryPath = binaryPath
-        self.fuzzConfig = fuzzConfig
+    def __init__(self, name: str, dirPath: Path, fuzzResult: FuzzResult, fuzzStatus: FuzzStatus, fuzzConfig: FuzzConfig = None):
+        self.name: str = name
+        self.dirPath: Path = dirPath
+        self.binaryPath: Path = dirPath/name
+        self.fuzzResult: FuzzResult = fuzzResult
+        self.fuzzStatus: FuzzStatus = fuzzStatus
+        self.fuzzConfig: FuzzConfig = fuzzConfig
         self.process = None
+        self.__isRunning: bool = None
 
-    def run(self) -> None:
-        if not os.path.exists(os.path.join(self.binaryPath, 'input')):
-            os.makedirs(os.path.join(self.binaryPath, 'input'))
-            with open(os.path.join(self.binaryPath, 'input', 'seed.txt'), 'w') as f:
-                f.write("-")
+    def run(self) -> bool:
+        return afl_command_helper.run_target(self.name)
 
-        binary_file = os.path.basename(self.binaryPath)
-
-        env = os.environ.copy()
-        env['AFL_AUTORESUME'] = '1'
-        env['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
-        command = f"AFLplusplus/afl-fuzz -i {self.binaryPath}/input -o {self.binaryPath}/output {self.binaryPath}/{binary_file}"
-        self.process = subprocess.Popen(shlex.split(
-            command), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=env)
-
-        return
+    def isRunning(self) -> bool:
+        if self.__isRunning is not None:
+            return self.__isRunning
+        self.__isRunning = afl_command_helper.is_target_running(self.name)
+        return self.__isRunning
 
     def stop(self) -> None:
-        if self.process is not None:
-            self.process.kill()
-            self.process = None
+        afl_command_helper.stop_target()
         return

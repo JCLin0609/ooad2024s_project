@@ -27,4 +27,5 @@ example_target/*
 !example_target/afl_test1
 !README.md
 
-./AFLplusplus/*
+AFLplusplus/*
+ttyd/*

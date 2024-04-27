@@ -1,22 +1,12 @@
-from typing import List
+from app.models.crash import Crash
+from app.models.fuzzData import FuzzData
 
-import app.models.crash as Crash
-import app.models.fuzzData as FuzzData
-import app.models.fuzzStatus as FuzzStatus
 
 class FuzzResult:
-    def __init__(self, numCrashes: int, timeConsum: int):
-        self.numCrashes = numCrashes
-        self.timeConsum = timeConsum
-        self.crashes: List[Crash] = []
-        self.fuzzStatus = None
-        self.fuzzData = []
+    def __init__(self, crashes: list[Crash] = [], fuzzData: list[FuzzData] = []):
+        self.__crashes: list[Crash] = crashes
+        self.__fuzzData: list[FuzzData] = fuzzData
 
-    def add_crash(self, crash: 'Crash'):
-        self.crashes.append(crash)
-
-    def set_status(self, status: 'FuzzStatus'):
-        self.fuzzStatus = status
-
-    def add_fuzz_data(self, data: 'FuzzData'):
-        self.fuzzData.append(data)
+    @property
+    def numCrashes(self) -> int:
+        return len(self.__crashes)

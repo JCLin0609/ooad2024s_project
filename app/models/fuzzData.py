@@ -1,4 +1,3 @@
-# 定義 FuzzData 類別
 class FuzzData:
     def __init__(self, relativeTime: int, cycleDone: int, corpusCount: int, mapSize: int, savedCrashes: int, maxDepth: int, execsPerSec: int, totalExecs: int, edgesFound: int):
         self.relativeTime = relativeTime
@@ -10,5 +9,3 @@ class FuzzData:
         self.execsPerSec = execsPerSec
         self.totalExecs = totalExecs
         self.edgesFound = edgesFound
-    
-    
