@@ -29,7 +29,7 @@ def upload():
 
 @bp.route('/observe', methods=['GET', 'POST'])
 def observe():
-    pass
+    return render_template('observe.html')
 
 
 @bp.route('/reports', methods=['GET'])

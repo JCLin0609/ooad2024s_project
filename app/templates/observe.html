@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Observe page{% endblock %}
+
+{% block content %}
+    <script>
+        window.onload = function() {
+            var iframe = document.getElementById('ttyd-iframe');
+            iframe.onload = function() {
+                iframe.contentWindow.onbeforeunload = null;
+            };
+        };
+    </script>
+    <style>
+        #ttyd-iframe {
+            transform: scale(1.5);
+            transform-origin: top left;
+        }
+    </style>
+    <iframe id="ttyd-iframe" src="http://localhost:5001/" width="650px" height="400px"></iframe>
+
+{% endblock %}
+
+
+
