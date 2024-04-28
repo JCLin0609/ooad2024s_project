@@ -47,7 +47,7 @@ def report(targetName):
 
 @bp.route('/replay', methods=['GET'])
 def replay():
-    pass
+    return render_template('replay.html')
 
 
 @bp.route('/execute', methods=['POST'])
