@@ -30,4 +30,14 @@ class FuzzTarget:
         return
 
     def gen_target_report(self) -> FuzzResult:
-        return self.fuzzResult.target_report(self.name)
+        self.fuzzResult.gen_target_report(self.name)
+        return self.fuzzResult
+    
+    def check_target_bin(self) -> bool:
+        pass
+
+    def replay(self) -> None:
+        pass
+
+    def get_target_status(self) -> FuzzStatus:
+        pass

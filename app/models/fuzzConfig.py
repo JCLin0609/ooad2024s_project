@@ -7,9 +7,9 @@ class FuzzConfig:
     def __init__(self, config_params: dict[str, str], target_folder: str):
         self.config_params = config_params
         self.target_folder = target_folder
-        self.setConfigPersistence()
+        self.set_config_persistence()
 
-    def setConfigPersistence(self) -> None:
+    def set_config_persistence(self) -> None:
         config_file = Path(self.target_folder) / "config.txt"
         if not config_file.exists():
             with config_file.open("w") as file:
@@ -17,7 +17,7 @@ class FuzzConfig:
                     file.write(f"{key}: {value}\n")
 
     @classmethod
-    def getConfigPersistence(cls, target_folder: str) -> dict[str, str]:
+    def get_config_persistence(cls, target_folder: str) -> dict[str, str]:
         config_params = {}
         config_file = Path(target_folder) / "config.txt"
         if config_file.exists():

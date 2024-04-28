@@ -28,5 +28,5 @@ class AFLService:
             return False
         return target.stop()
 
-    def replayFuzzTarget(self) -> None:
+    def replay_fuzz_target(self) -> None:
         pass

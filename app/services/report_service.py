@@ -8,9 +8,6 @@ class ReportService:
     def get_target_names(self) -> list[str]:
         return self.repository.get_all_fuzz_target_names()
 
-    def get_report(self, target_name: str):
-        return self.repository.get(target_name)
-
     def get_target_report(self, target_name: str):
         try:
             target = self.repository.get(target_name)

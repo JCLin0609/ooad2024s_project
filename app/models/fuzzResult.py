@@ -19,6 +19,5 @@ class FuzzResult:
     def _plot_imgs(self, target_name: str) -> None:
         afl_command_helper.plot_fuzz_imgs(target_name)
 
-    def target_report(self, target_name: str):
+    def gen_target_report(self, target_name: str):
         self._plot_imgs(target_name)
-        return self
