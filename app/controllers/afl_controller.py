@@ -34,17 +34,17 @@ def observe():
 
 @bp.route('/reports', methods=['GET'])
 def reports():
-    targetNames = reportService.get_target_names()
-    currentTargetName = aflService.current_running_target(
+    target_names = reportService.get_target_names()
+    current_target_name = aflService.current_running_target(
     ).name if aflService.current_running_target() else None
-    return render_template('reports.html', targetNames=targetNames, currentTargetName=currentTargetName)
+    return render_template('reports.html', targetNames=target_names, currentTargetName=current_target_name)
 
 
 @bp.route('/reports/<targetName>', methods=['GET'])
 def report(targetName):
-    targetResult, target_report_img_path = reportService.get_target_report(
+    target_result, target_report_img_path = reportService.get_target_report(
         targetName)
-    return render_template('target_report.html', target=targetName, targetResult=targetResult, imgs=target_report_img_path)
+    return render_template('target_report.html', target=targetName, targetResult=target_result, imgs=target_report_img_path)
 
 
 @bp.route('/replay', methods=['GET'])
@@ -54,8 +54,8 @@ def replay():
 
 @bp.route('/execute', methods=['POST'])
 def execute():
-    targetName = request.form.get('targetName')
-    aflService.start_running_target(targetName)
+    target_name = request.form.get('targetName')
+    aflService.start_running_target(target_name)
     return redirect(url_for('afl_controller.observe'))
 
 

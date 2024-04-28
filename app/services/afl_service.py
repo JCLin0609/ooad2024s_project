@@ -9,7 +9,7 @@ class AFLService:
     def current_running_target(self) -> FuzzTarget:
         targets = self.repository.get_all()
         for target in targets:
-            if target.isRunning():
+            if target.is_running():
                 return target
 
     def start_running_target(self, target_name: str) -> bool:

@@ -8,30 +8,30 @@ import app.helper.afl_command_helper as afl_command_helper
 class FuzzTarget:
     def __init__(self, name: str, dirPath: Path, fuzzResult: FuzzResult, fuzzStatus: FuzzStatus, fuzzConfig: FuzzConfig = None):
         self.name: str = name
-        self.dirPath: Path = dirPath
-        self.binaryPath: Path = dirPath/name
-        self.fuzzResult: FuzzResult = fuzzResult
-        self.fuzzStatus: FuzzStatus = fuzzStatus
-        self.fuzzConfig: FuzzConfig = fuzzConfig
+        self.dir_path: Path = dirPath
+        self.binary_path: Path = dirPath/name
+        self.fuzz_result: FuzzResult = fuzzResult
+        self.fuzz_status: FuzzStatus = fuzzStatus
+        self.fuzz_config: FuzzConfig = fuzzConfig
         self.process = None
-        self.__isRunning: bool = None
+        self.__is_running: bool = None
 
     def run(self) -> bool:
         return afl_command_helper.run_target(self.name)
 
-    def isRunning(self) -> bool:
-        if self.__isRunning is not None:
-            return self.__isRunning
-        self.__isRunning = afl_command_helper.is_target_running(self.name)
-        return self.__isRunning
+    def is_running(self) -> bool:
+        if self.__is_running is not None:
+            return self.__is_running
+        self.__is_running = afl_command_helper.is_target_running(self.name)
+        return self.__is_running
 
     def stop(self) -> None:
         afl_command_helper.stop_target()
         return
 
     def gen_target_report(self) -> FuzzResult:
-        self.fuzzResult.gen_target_report(self.name)
-        return self.fuzzResult
+        self.fuzz_result.gen_target_report(self.name)
+        return self.fuzz_result
     
     def check_target_bin(self) -> bool:
         pass
