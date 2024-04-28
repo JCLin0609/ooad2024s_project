@@ -17,8 +17,11 @@
             transform-origin: top left;
         }
     </style>
-    <iframe id="ttyd-iframe" src="http://localhost:5001/" width="650px" height="400px"></iframe>
-
+    <div style="position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 650px; height: 400px; pointer-events: none;">
+            <iframe id="ttyd-iframe" src="http://localhost:5001/" width="650px" height="400px"></iframe>
+        </div>
+    </div>
 {% endblock %}
 
 
