@@ -9,11 +9,11 @@ class FuzzResult:
         self.__fuzzData: list[FuzzData] = fuzzData
 
     @property
-    def numCrashes(self) -> int:
+    def num_crashes(self) -> int:
         return len(self.__crashes)
 
     @property
-    def getCrashed(self) -> list[Crash]:
+    def get_crashed(self) -> list[Crash]:
         return self.__crashes
 
     def _plot_imgs(self, target_name: str) -> None:
