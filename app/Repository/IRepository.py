@@ -22,5 +22,9 @@ class IRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def get_plot_imgs(self, target_name: str) -> list[str]:
+        raise NotImplementedError
+
+    @abstractmethod
     def delete(self, target_name: str) -> bool:
         raise NotImplementedError

@@ -6,9 +6,11 @@ import subprocess
 
 afl_path = Path("./AFLplusplus/afl-fuzz")
 afl_whatsup_path = Path("./AFLplusplus/afl-whatsup")
+afl_plot_path = Path("./AFLplusplus/afl-plot")
 ttyd_path = Path("./ttyd/ttyd")
 ttyd_port = 5001
 fuzz_targets_path = Path("./fuzz_targets")
+fuzz_targets_img_path = Path("./app/static/fuzz_targets_img")
 tmux_session_name = "AFLGUITool_session"
 
 
@@ -57,6 +59,17 @@ def stop_target():
     except Exception as e:
         print(f"Error stopping target: {e}")
         return False
+
+
+def plot_fuzz_imgs(target_name: str) -> None:
+    try:
+        target_path = fuzz_targets_path / target_name / "output" / "default"
+        output_path = fuzz_targets_img_path / target_name
+        command = f"{afl_plot_path} {target_path} {output_path}"
+        subprocess.run(shlex.split(command), stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE, text=True)
+    except Exception as e:
+        print(f"Error plotting fuzz data: {e}")
 
 
 def kill_ttyd(signum=None, frame=None):

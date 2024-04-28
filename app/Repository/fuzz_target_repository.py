@@ -48,6 +48,13 @@ class FuzzTargetRepository(IRepository):
         target_dir = Path(current_app.config['UPLOAD_FOLDER'])
         return [str(dir.name) for dir in target_dir.iterdir() if dir.is_dir()]
 
+    def get_plot_imgs(self, target_name: str) -> list[str]:
+        target_img_dir = Path(
+            current_app.config['TARGET_IMG_FOLDER']) / target_name
+        if not target_img_dir.exists():
+            return []
+        return [img.name for img in target_img_dir.iterdir() if img.name.endswith(('.png', '.jpg'))]
+
     def delete(self, target_name: str) -> bool:
         target = Path(current_app.config['UPLOAD_FOLDER']) / target_name
         if target.exists():
