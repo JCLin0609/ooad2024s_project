@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Target report{% endblock %}
+
+{% block content %}
+<body>
+    <h1 style="padding-top: 50px;">Report Page</h1>
+    <h2>Target Name: {{ target }}</h2>
+
+    <h2>Fuzz Result: </h2>
+    <div>
+        {% for img in imgs %}
+            <img src="{{ url_for('static', filename= 'fuzz_targets_img/' + target + '/' + img ) }}" alt="Image">
+        {% endfor %}
+    </div>
+
+    <p>Number of crashed found: {{ targetResult.numCrashes }}</p>
+    <h3>Crashed Targets List:</h3>
+    <ul>
+        {% for crashed in targetResult.getCrashed %}
+            <li>{{ crashed }}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+{% endblock %}

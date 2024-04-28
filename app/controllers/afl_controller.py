@@ -42,11 +42,9 @@ def reports():
 
 @bp.route('/reports/<targetName>', methods=['GET'])
 def report(targetName):
-    target = fuzzTargetRepository.get(targetName)
-    if target is None:
-        return Response("Not Found", status=404)
-    plotImgs = reportService.get_plot_imgs(targetName)
-    return render_template('targetReport.html', target=target, plotImgs=plotImgs)
+    targetResult, target_report_img_path = reportService.get_target_report(
+        targetName)
+    return render_template('target_report.html', target=targetName, targetResult=targetResult, imgs=target_report_img_path)
 
 
 @bp.route('/replay', methods=['GET'])

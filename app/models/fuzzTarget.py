@@ -29,6 +29,5 @@ class FuzzTarget:
         afl_command_helper.stop_target()
         return
 
-    def plot_imgs(self) -> None:
-        self.fuzzResult.plot_imgs(self.name)
-        return
+    def gen_target_report(self) -> FuzzResult:
+        return self.fuzzResult.target_report(self.name)
