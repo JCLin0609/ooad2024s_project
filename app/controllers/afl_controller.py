@@ -63,7 +63,7 @@ def execute():
 @bp.route('/stop', methods=['POST'])
 def stop():
     aflService.stop_running_target()
-    return redirect(url_for('afl_controller.observe'))
+    return redirect(url_for('afl_controller.reports'))
 
 
 fuzzTargetRepository = FuzzTargetRepository()
