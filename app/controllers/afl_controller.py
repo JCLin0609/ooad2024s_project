@@ -42,19 +42,28 @@ def reports():
 
 @bp.route('/reports/<targetName>', methods=['GET'])
 def report(targetName):
-    pass
+    target = fuzzTargetRepository.get(targetName)
+    if target is None:
+        return Response("Not Found", status=404)
+    return render_template('targetReport.html', target=target)
 
 
 @bp.route('/replay', methods=['GET'])
 def replay():
-    return render_template('replay.html')
+    pass
 
 
 @bp.route('/execute', methods=['POST'])
 def execute():
     targetName = request.form.get('targetName')
     aflService.start_running_target(targetName)
-    return redirect(url_for('afl_controller.reports'))
+    return redirect(url_for('afl_controller.observe'))
+
+
+@bp.route('/stop', methods=['POST'])
+def stop():
+    aflService.stop_running_target()
+    return redirect(url_for('afl_controller.observe'))
 
 
 fuzzTargetRepository = FuzzTargetRepository()

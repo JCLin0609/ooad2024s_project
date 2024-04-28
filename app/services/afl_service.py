@@ -22,5 +22,11 @@ class AFLService:
             print(f"Error transferring running target: {e}")
             return False
 
+    def stop_running_target(self) -> bool:
+        target = self.current_running_target()
+        if target is None:
+            return False
+        return target.stop()
+
     def replayFuzzTarget(self) -> None:
         pass

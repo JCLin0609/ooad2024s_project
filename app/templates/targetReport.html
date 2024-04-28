@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Target report{% endblock %}
+
+{% block content %}
+    <h1 style="padding-top: 50px;">Report Page</h1>
+    <h2>Target Name: {{ target.name }}</h2>
+    <p>Number of crashed found: {{ target.fuzzResult.numCrashes }}</p>
+    <h3>Crashed Targets:</h3>
+    <ul>
+        {% for crashed in target.fuzzResult.getCrashed %}
+            <li>{{ crashed }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- {% for key, value in target.fuzzStatus.getStatus().items() %}
+        <p>{{ key }}: {{ value }}</p>
+    {% endfor %} -->
+{% endblock %}

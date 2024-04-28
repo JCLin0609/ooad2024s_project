@@ -26,7 +26,12 @@
                 <tr>
                     <td>{{ targetName }}</td>
                     <td style="min-width: 500px; text-align: center;">{% if targetName == currentTargetName %}是{% endif %}</td>
-                    <td><a href="/target/{{ targetName }}">查看詳細狀態</a></td>
+                    <td>
+                        <form method="get" action="/reports/{{ targetName }}">
+                            <input type="hidden" name="targetName" value="{{ targetName }}">
+                            <button type="submit" style="min-width: 300px; min-height: 50px;">查看詳細狀態</button>
+                        </form>
+                    </td>
                     <td style="min-width: 200px; text-align: center;">
                         <form method="POST" action="/execute">
                             <input type="hidden" name="targetName" value="{{ targetName }}">
