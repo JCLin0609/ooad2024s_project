@@ -3,24 +3,35 @@
 {% block title %}Target report{% endblock %}
 
 {% block content %}
-<body>
-    <h1 style="padding-top: 50px;">Report Page</h1>
-    <h2>Target Name: {{ target }}</h2>
+    <body>
+        <h1 style="padding-top: 50px;">Report Page</h1>
+        <h2>Target Name: {{ target }}</h2>
 
-    <h2>Fuzz Result: </h2>
-    <div>
-        {% for img in imgs %}
-            <img src="{{ url_for('static', filename= 'fuzz_targets_img/' + target + '/' + img ) }}" alt="Image">
-        {% endfor %}
-    </div>
+        <h2>Fuzz Result: </h2>
+        <div>
+            {% for img in imgs %}
+                <img src="{{ url_for('static', filename= 'fuzz_targets_img/' + target + '/' + img ) }}" alt="Image">
+            {% endfor %}
+        </div>
 
-    <p>Number of crashed found: {{ targetResult.numCrashes }}</p>
-    <h3>Crashed Targets List:</h3>
-    <ul>
-        {% for crashed in targetResult.getCrashed %}
-            <li>{{ crashed }}</li>
-        {% endfor %}
-    </ul>
-</body>
+        <hr>
+        <p>Number of crashed found: {{ targetResult.num_crashes }}</p>
+        <h3>Crashed Targets List:</h3>
 
+        <ul>
+            {% for crashed in targetResult.get_crashed %}
+            <li>
+            <hr> <!-- Add a horizontal line to separate each crashed information -->
+            <tr>
+                <p style="font-size: smaller; margin-right: 10px; display: inline-block;">ID: {{ crashed.get_data.id }}</p>  
+                <button style="display: inline-block; min-height: 50px;" onclick="window.location.href='/replay/{{ crashed.get_data.id }}'">Replay</button>
+            </tr>
+            <p style="font-size: smaller;">Signal Number: {{ crashed.get_data.signal_number }}</p>
+            <p style="font-size: smaller;">Relative Time: {{ crashed.get_data.relative_time }}</p>
+            <p style="font-size: smaller;">Execs: {{ crashed.get_data.execs }}</p>
+            <p style="font-size: smaller;">Crashing Input: {{ crashed.get_data.crashingInput }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
 {% endblock %}

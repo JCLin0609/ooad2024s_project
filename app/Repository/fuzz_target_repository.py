@@ -139,6 +139,7 @@ class FuzzTargetRepository(IRepository):
             with open(crash_file,  'r', encoding="utf-8", errors='ignore') as f:
                 file_content = f.read()
             crash = Crash(
+                id=file_info['id'],
                 signal_number=file_info['sig'],
                 relative_time=file_info['time'],
                 execs=file_info['execs'],
