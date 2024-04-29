@@ -30,6 +30,8 @@ class FuzzTarget:
         return
 
     def gen_target_report(self) -> FuzzResult:
+        if(self.fuzz_result is None):
+            return None
         self.fuzz_result.gen_target_report(self.name)
         return self.fuzz_result
     

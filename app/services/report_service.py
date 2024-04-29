@@ -12,6 +12,8 @@ class ReportService:
         try:
             target = self.repository.get(target_name)
             target_report = target.gen_target_report()
+            if target_report is None:
+                return None, None
             target_report_img_path = self.repository.get_plot_imgs(target_name)
             return target_report, target_report_img_path
         except Exception as e:

@@ -15,6 +15,10 @@ class FuzzResult:
     @property
     def get_crashed(self) -> list[Crash]:
         return self.__crashes
+    
+    @property
+    def num_fuzz_data(self) -> int:
+        return len(self.__fuzzData)
 
     def _plot_imgs(self, target_name: str) -> None:
         afl_command_helper.plot_fuzz_imgs(target_name)
