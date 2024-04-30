@@ -35,13 +35,12 @@ def observe():
 @bp.route('/reports', methods=['GET'])
 def reports():
     target_names = reportService.get_target_names()
-    current_target_name = aflService.current_running_target(
-    ).name if aflService.current_running_target() else None
+    current_target_name = aflService.current_running_target_name()
     return render_template('reports.html', targetNames=target_names, currentTargetName=current_target_name)
 
 
 @bp.route('/reports/<targetName>', methods=['GET'])
-def report(targetName):
+def target_report(targetName):
     target_result, target_report_img_path = reportService.get_target_report(
         targetName)
     return render_template('target_report.html', target=targetName, targetResult=target_result, imgs=target_report_img_path)
@@ -57,6 +56,13 @@ def execute():
     target_name = request.form.get('targetName')
     aflService.start_running_target(target_name)
     return redirect(url_for('afl_controller.observe'))
+
+
+@bp.route('/delete', methods=['POST'])
+def delete():
+    delete_target_list = request.get_json()
+    aflService.delete_target(delete_target_list)
+    return redirect(url_for('afl_controller.reports'))
 
 
 @bp.route('/stop', methods=['POST'])

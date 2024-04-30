@@ -61,6 +61,28 @@ def stop_target():
         return False
 
 
+def delete_target(target_name: str) -> bool:
+    try:
+        if is_target_running(target_name):
+            stop_target()
+        target_path = fuzz_targets_path / target_name
+        command = f"rm -rf {target_path}"
+        subprocess.run(shlex.split(command), stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE, text=True)
+
+        targets_img_path = fuzz_targets_img_path / target_name
+        if not targets_img_path.exists():
+            return True
+        command = f"rm -rf {targets_img_path}"
+        subprocess.run(shlex.split(command), stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE, text=True)
+
+        return True
+    except Exception as e:
+        print(f"Error deleting target: {e}")
+        return False
+
+
 def plot_fuzz_imgs(target_name: str) -> None:
     try:
         target_path = fuzz_targets_path / target_name / "output" / "default"

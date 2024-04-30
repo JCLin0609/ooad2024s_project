@@ -30,11 +30,14 @@ class FuzzTarget:
         return
 
     def gen_target_report(self) -> FuzzResult:
-        if(self.fuzz_result is None):
+        if (self.fuzz_result is None):
             return None
         self.fuzz_result.gen_target_report(self.name)
         return self.fuzz_result
-    
+
+    def delete(self) -> bool:
+        return afl_command_helper.delete_target(self.name)
+
     def check_target_bin(self) -> bool:
         pass
 

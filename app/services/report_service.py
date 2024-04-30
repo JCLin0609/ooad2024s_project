@@ -8,7 +8,7 @@ class ReportService:
     def get_target_names(self) -> list[str]:
         return self.repository.get_all_fuzz_target_names()
 
-    def get_target_report(self, target_name: str):
+    def get_target_report(self, target_name: str) -> tuple:
         try:
             target = self.repository.get(target_name)
             target_report = target.gen_target_report()

@@ -11,6 +11,13 @@ class AFLService:
         for target in targets:
             if target.is_running():
                 return target
+        return None
+
+    def current_running_target_name(self) -> str:
+        target = self.current_running_target()
+        if target is None:
+            return None
+        return target.name
 
     def start_running_target(self, target_name: str) -> bool:
         try:
@@ -27,6 +34,18 @@ class AFLService:
         if target is None:
             return False
         return target.stop()
+
+    def delete_target(self, target_name: list[str]) -> bool:
+        try:
+            for name in target_name:
+                target = self.repository.get(name)
+                if target is None:
+                    return False
+                target.delete()
+            return True
+        except Exception as e:
+            print(f"Error deleting target: {e}")
+            return False
 
     def replay_fuzz_target(self) -> None:
         pass
