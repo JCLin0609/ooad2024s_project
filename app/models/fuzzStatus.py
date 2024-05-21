@@ -2,16 +2,16 @@ import re
 
 
 class FuzzStatus:
-    def __init__(self, start_time: int, last_update: int, run_time: int, fuzzer_pid: int, cycles_done: int,
-                 cycles_wo_finds: int, time_wo_finds: int, fuzz_time: int, calibration_time: int, sync_time: int,
-                 trim_time: int, execs_done: int, execs_per_sec: float, execs_ps_last_min: float, corpus_count: int,
-                 corpus_favored: int, corpus_found: int, corpus_imported: int, corpus_variable: int, max_depth: int,
-                 cur_item: int, pending_favs: int, pending_total: int, stability: float, bitmap_cvg: float,
-                 saved_crashes: int, saved_hangs: int, last_find: int, last_crash: int, last_hang: int,
-                 execs_since_crash: int, exec_timeout: int, slowest_exec_ms: int, peak_rss_mb: int,
-                 cpu_affinity: int, edges_found: int, total_edges: int, var_byte_count: int, havoc_expansion: int,
-                 auto_dict_entries: int, testcache_size: int, testcache_count: int, testcache_evict: int,
-                 afl_banner: str, afl_version: str, target_mode: str, command_line: str):
+    def __init__(self, start_time: int = 0, last_update: int = 0, run_time: int = 0, fuzzer_pid: int = 0, cycles_done: int = 0,
+                 cycles_wo_finds: int = 0, time_wo_finds: int = 0, fuzz_time: int = 0, calibration_time: int = 0, sync_time: int = 0,
+                 trim_time: int = 0, execs_done: int = 0, execs_per_sec: float = 0.0, execs_ps_last_min: float = 0.0, corpus_count: int = 0,
+                 corpus_favored: int = 0, corpus_found: int = 0, corpus_imported: int = 0, corpus_variable: int = 0, max_depth: int = 0,
+                 cur_item: int = 0, pending_favs: int = 0, pending_total: int = 0, stability: float = 0.0, bitmap_cvg: float = 0.0,
+                 saved_crashes: int = 0, saved_hangs: int = 0, last_find: int = 0, last_crash: int = 0, last_hang: int = 0,
+                 execs_since_crash: int = 0, exec_timeout: int = 0, slowest_exec_ms: int = 0, peak_rss_mb: int = 0,
+                 cpu_affinity: int = 0, edges_found: int = 0, total_edges: int = 0, var_byte_count: int = 0, havoc_expansion: int = 0,
+                 auto_dict_entries: int = 0, testcache_size: int = 0, testcache_count: int = 0, testcache_evict: int = 0,
+                 afl_banner: str = '', afl_version: str = '', target_mode: str = '', command_line: str = ''):
         self.start_time = start_time
         self.last_update = last_update
         self.run_time = run_time
