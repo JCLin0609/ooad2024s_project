@@ -14,8 +14,10 @@ class ReportService:
             target_report = target.gen_target_report()
             if target_report is None:
                 return None, None
-            target_report_img_path = self.repository.get_plot_imgs(target_name)
-            return target_report, target_report_img_path
+            return target_report
         except Exception as e:
             print(f"Error getting target report: {e}")
             return None, None
+
+    def get_target_report_img_path(self, target_name: str) -> list[str]:
+        return self.repository.get_plot_imgs(target_name)

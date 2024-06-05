@@ -41,9 +41,10 @@ def reports():
 
 @bp.route('/reports/<targetName>', methods=['GET'])
 def target_report(targetName):
-    target_result, target_report_img_path = reportService.get_target_report(
+    target_report = reportService.get_target_report(targetName)
+    target_report_img_path = reportService.get_target_report_img_path(
         targetName)
-    return render_template('target_report.html', target=targetName, targetResult=target_result, imgs=target_report_img_path)
+    return render_template('target_report.html', target=targetName, targetResult=target_report, imgs=target_report_img_path)
 
 
 @bp.route('/replay', methods=['GET'])
