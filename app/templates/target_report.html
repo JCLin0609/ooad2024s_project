@@ -28,9 +28,6 @@
                 <hr> <!-- Add a horizontal line to separate each crashed information -->
                 <tr>
                     <p style="font-size: smaller; margin-right: 10px; display: inline-block;">Crash number: {{ crashed.get_data.num }}</p>  
-                    <!-- <input type="hidden" name="targetName" value="{{ target }}">
-                    <input type="hidden" name="crashNum" value="{{ crashed.get_data.num }}"> -->
-                    <!-- <button style="display: inline-block; min-height: 50px;" onclick="window.location.href='/replay'">Replay</button> -->
                     <form method="get" action="/replay">
                         <input type="hidden" name="targetName" value="{{ target }}">
                         <input type="hidden" name="crashNum" value="{{ crashed.get_data.num }}">
