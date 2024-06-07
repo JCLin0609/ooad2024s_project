@@ -27,9 +27,17 @@
                 <li>
                 <hr> <!-- Add a horizontal line to separate each crashed information -->
                 <tr>
-                    <p style="font-size: smaller; margin-right: 10px; display: inline-block;">ID: {{ crashed.get_data.id }}</p>  
-                    <button style="display: inline-block; min-height: 50px;" onclick="window.location.href='/replay/{{ crashed.get_data.id }}'">Replay</button>
+                    <p style="font-size: smaller; margin-right: 10px; display: inline-block;">Crash number: {{ crashed.get_data.num }}</p>  
+                    <!-- <input type="hidden" name="targetName" value="{{ target }}">
+                    <input type="hidden" name="crashNum" value="{{ crashed.get_data.num }}"> -->
+                    <!-- <button style="display: inline-block; min-height: 50px;" onclick="window.location.href='/replay'">Replay</button> -->
+                    <form method="get" action="/replay">
+                        <input type="hidden" name="targetName" value="{{ target }}">
+                        <input type="hidden" name="crashNum" value="{{ crashed.get_data.num }}">
+                        <button type="submit" style="display: inline-block; min-height: 50px;">Replay</button>
+                    </form>
                 </tr>
+                <p style="font-size: smaller;">Crash ID: {{ crashed.get_data.id }}</p>
                 <p style="font-size: smaller;">Signal Number: {{ crashed.get_data.signal_number }}</p>
                 <p style="font-size: smaller;">Relative Time: {{ crashed.get_data.relative_time }}</p>
                 <p style="font-size: smaller;">Execs: {{ crashed.get_data.execs }}</p>

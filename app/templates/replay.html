@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Replay page{% endblock %}
+
+{% block content %}
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Replay page</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style_replay.css') }}">
+    </head>
+    <body>
+        <h1>Replay target {{ targetName }} for crash number {{ crash }}</h1>
+        <p>If not showing the crash replay result, you can refresh the page again.</p>
+        <div class="terminal-output">
+            {{ htmlContent|safe }}
+        </div>
+    </body>
+
+{% endblock %}

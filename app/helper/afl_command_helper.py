@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import shlex
 import subprocess
-
+from ansi2html import Ansi2HTMLConverter
 
 afl_path = Path("./AFLplusplus/afl-fuzz")
 afl_whatsup_path = Path("./AFLplusplus/afl-whatsup")
@@ -37,7 +37,7 @@ def run_target(target_name: str):
         if not target_path.exists() or not binary_path.exists():
             return False
         command = (["tmux", "new-session", "-d", "-A", "-s", f"{tmux_session_name}", f"{afl_path}", "-i", f"{target_path}/input",
-                    "-o", f"{target_path}/output", f"{binary_path}"])
+                    "-o", f"{target_path}/output", f"{binary_path}", "@@"])
         subprocess.Popen(command, stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE, env=env)
 
@@ -104,3 +104,35 @@ def kill_tmux_session(signum=None, frame=None):
     command = f"tmux kill-session -t {tmux_session_name}"
     subprocess.run(shlex.split(command), stdout=subprocess.PIPE,
                    stderr=subprocess.PIPE, text=True)
+
+
+def replay_crash(target_name, crash_path: str) -> str:
+    try:
+        target_binary_path = str(fuzz_targets_path / target_name / target_name)
+        crash_path = str(crash_path)
+        crash_msg_path_parts = crash_path.rsplit("/", 1)
+        crash_msg_path = "{}/report_{}.txt".format(
+            crash_msg_path_parts[0], crash_msg_path_parts[1])
+
+        if not os.path.exists(crash_msg_path):
+            command = f"touch {crash_msg_path}"
+            process = subprocess.run(shlex.split(
+                command), stdout=subprocess.PIPE)
+            process.wait()
+
+        replay_command = f"script -c '{target_binary_path} {crash_path}' {crash_msg_path}"
+        process = subprocess.Popen(
+            shlex.split(replay_command), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process.wait()
+
+        with open(crash_msg_path, 'r') as file:
+            crash_output_content = file.read()
+
+        conv = Ansi2HTMLConverter()
+        html_content = conv.convert(crash_output_content)
+
+        return html_content
+
+    except Exception as e:
+        print(f"Error replaying crash: {e}")
+        return None

@@ -2,6 +2,7 @@ from flask import render_template, Blueprint, request, redirect, flash, url_for,
 from app.services.afl_service import AFLService
 from app.services.report_service import ReportService
 from app.services.upload_service import UploadService
+from app.services.replay_service import ReplayService
 from app.Repository.fuzz_target_repository import FuzzTargetRepository
 
 bp = Blueprint('afl_controller', __name__)
@@ -49,7 +50,11 @@ def target_report(targetName):
 
 @bp.route('/replay', methods=['GET'])
 def replay():
-    pass
+    target_name = request.args.get('targetName')
+    crash_num = request.args.get('crashNum')
+    target_report_content = replayService.replay_target(
+        target_name, crash_num)
+    return render_template('replay.html', targetName=target_name, crash=crash_num, htmlContent=target_report_content)
 
 
 @bp.route('/execute', methods=['POST'])
@@ -76,3 +81,4 @@ fuzzTargetRepository = FuzzTargetRepository()
 aflService = AFLService(fuzzTargetRepository)
 uploadService = UploadService(fuzzTargetRepository)
 reportService = ReportService(fuzzTargetRepository)
+replayService = ReplayService(fuzzTargetRepository)

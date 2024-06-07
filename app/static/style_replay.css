@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #dcdcdc;
+    color: #dcdcdc;
+    font-size: 20px; /* Add this line to enlarge the font size */
+}
+
+.terminal-output {
+    background-color: #300A24;
+    color: #dcdcdc;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    font-family: monospace;
+}

@@ -41,8 +41,11 @@ class FuzzTarget:
     def check_target_bin(self) -> bool:
         pass
 
-    def replay(self) -> None:
-        pass
+    def replay(self, crash_num: int) -> str:
+        crash = self.fuzz_result.get_specific_crash(num=crash_num)
+        replay_content = afl_command_helper.replay_crash(
+            self.name, crash.crash_path)
+        return replay_content
 
     def get_target_status(self) -> FuzzStatus:
         pass

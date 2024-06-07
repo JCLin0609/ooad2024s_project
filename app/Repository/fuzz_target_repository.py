@@ -125,25 +125,28 @@ class FuzzTargetRepository(IRepository):
         ) if file.name.startswith('id:')]
 
         crashes = list[Crash]()
+        crash_num = 0
         for crash_file in crash_files:
-            crash = self.__process_crash_file(crash_file)
+            crash = self.__process_crash_file(crash_file, crash_num)
             if crash:
                 crashes.append(crash)
-
+                crash_num += 1
         return crashes
 
-    def __process_crash_file(self, crash_file: Path) -> Crash:
+    def __process_crash_file(self, crash_file: Path, crash_num: int) -> Crash:
         try:
             file_info = {k: v for k, v in (item.split(
                 ':')for item in crash_file.name.split(','))}
             with open(crash_file,  'r', encoding="utf-8", errors='ignore') as f:
                 file_content = f.read()
             crash = Crash(
+                num=crash_num,
                 id=file_info['id'],
                 signal_number=file_info['sig'],
                 relative_time=file_info['time'],
                 execs=file_info['execs'],
-                crashingInput=file_content
+                crashingInput=file_content,
+                crash_path=crash_file
             )
             return crash
         except (KeyError, ValueError, OSError) as e:
