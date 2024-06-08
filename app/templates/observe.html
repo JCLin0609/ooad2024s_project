@@ -3,6 +3,9 @@
 {% block title %}Observe page{% endblock %}
 
 {% block content %}
+    <div class="iframe-container">
+        <iframe id="ttyd-iframe" src="http://localhost:5001/" width="650" height="400"></iframe>
+    </div>
     <script>
         window.onload = function() {
             var iframe = document.getElementById('ttyd-iframe');
@@ -11,18 +14,4 @@
             };
         };
     </script>
-    <style>
-        #ttyd-iframe {
-            transform: scale(1.5);
-            transform-origin: top left;
-        }
-    </style>
-    <div style="position: relative;">
-        <div style="position: absolute; top: 0; left: 0; width: 650px; height: 400px; pointer-events: none;">
-            <iframe id="ttyd-iframe" src="http://localhost:5001/" width="650px" height="400px"></iframe>
-        </div>
-    </div>
 {% endblock %}
-
-
-

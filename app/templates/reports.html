@@ -3,75 +3,70 @@
 {% block title %}Reports page{% endblock %}
 
 {% block content %}
-    <h1 style="padding-top: 50px;">Reports Page</h1>
-    <body>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p>{{ message }}</p><br>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
-        <tr>
-            <td colspan="6" style="text-align: right;">
-                <input type="button" style="min-width: 100px; min-height: 50px;" onclick="sendDataToController();" value="刪除所選目標" />
-            </td>
-        </tr>
-        
-        <table>
+    <h1>Reports Page</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p><br>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <button onclick="sendDataToController();">刪除所選目標</button>
+
+    <table>
+        <thead>
             <tr>
                 <th>選擇</th>
                 <th>名稱</th>
-                <th style="min-width: 400px;">正在執行</th>
+                <th>正在執行</th>
                 <th>查看詳細狀態</th>
-                <th style="min-width: 200px;">執行</th>
-                <th style="min-width: 200px;">中止</th>
+                <th>執行</th>
+                <th>中止</th>
             </tr>
-            </tr>
+        </thead>
+        <tbody>
             {% for targetName in targetNames %}
                 <tr>
                     <td>
                         <input type="checkbox" name="target" value="{{ targetName }}">
                     </td>
                     <td>{{ targetName }}</td>
-                    <td style="min-width: 500px; text-align: center;">{% if targetName == currentTargetName %}是{% endif %}</td>
+                    <td>{% if targetName == currentTargetName %}是{% endif %}</td>
                     <td>
                         <form method="get" action="/reports/{{ targetName }}">
                             <input type="hidden" name="targetName" value="{{ targetName }}">
-                            <button type="submit" style="min-width: 300px; min-height: 50px;">查看詳細狀態</button>
+                            <button type="submit">查看詳細狀態</button>
                         </form>
                     </td>
-                    <td style="min-width: 200px; text-align: center;">
+                    <td>
                         <form method="POST" action="/execute">
                             <input type="hidden" name="targetName" value="{{ targetName }}">
-                            <button type="submit" style="min-width: 100px; min-height: 50px;">執行</button>
+                            <button type="submit">執行</button>
                         </form>
                     </td>
                     {% if targetName == currentTargetName %}
-                    <td style="min-width: 200px; text-align: center;">
+                    <td>
                         <form method="POST" action="/stop">
                             <input type="hidden" name="targetName" value="{{ targetName }}">
-                            <button type="submit" style="min-width: 100px; min-height: 50px;">中止</button>
+                            <button type="submit">中止</button>
                         </form>
                     </td>
                     {% endif %}
                 </tr>
-                </tr>
             {% endfor %}
-        </table>
-    </body>
+        </tbody>
+    </table>
 
-    
     <script>
         function sendDataToController() {
             var checkboxes = document.getElementsByName("target");
             var selectedValues = [];
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].checked) {
-                    selectedValues.push(checkboxes[i].value);
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    selectedValues.push(checkbox.value);
                 }
-            }
+            });
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/delete", true);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -83,5 +78,4 @@
             }
         }
     </script>
-    </body>
 {% endblock %}

@@ -5,16 +5,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div id="button-container">
-        <!-- 你的按鈕放在這裡 -->
-        <a href="{{ url_for('afl_controller.index') }}">|首頁|</a>
-        <a href="{{ url_for('afl_controller.upload') }}">|上傳待測程式|</a>
-        <a href="{{ url_for('afl_controller.reports') }}">|檢視待測程式|</a>
-        <a href="{{ url_for('afl_controller.observe') }}">|觀看待測程式|</a>
+    <div id="navbar">
+        <a href="{{ url_for('afl_controller.index') }}">首頁</a>
+        <a href="{{ url_for('afl_controller.upload') }}">上傳待測程式</a>
+        <a href="{{ url_for('afl_controller.reports') }}">檢視待測程式</a>
+        <a href="{{ url_for('afl_controller.observe') }}">觀看待測程式</a>
     </div>
-</body>
-<body>
-    {% block content %}{% endblock %}
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
