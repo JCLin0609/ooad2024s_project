@@ -18,13 +18,12 @@ def upload():
     if request.method == 'GET':
         return render_template('upload.html')
     file = request.files['file']
-    duration = request.form.get('duration')
     if file:
         result = uploadService.upload_fuzz_Target(file)
         if result:
-            flash(f'{file.filename} 上傳成功 (Run for {duration} hrs)')
+            flash(f'{file.filename} 上傳成功')
         else:
-            flash(f'{file.filename} 上傳失敗 (Run for {duration} hrs)')
+            flash(f'{file.filename} 上傳失敗')
     return redirect(url_for('afl_controller.upload'))
 
 

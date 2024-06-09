@@ -15,14 +15,6 @@
         {% endwith %}
         <p>上傳檔案</p>
         <form action="{{ url_for('afl_controller.upload') }}" method="post" enctype="multipart/form-data">
-            <label for="duration" style="font-size: smaller;">執行時間:</label>
-            <select name="duration" id="duration">
-                <option value="1">1hr</option>
-                <option value="3">3hr</option>
-                <option value="6">6hr</option>
-                <option value="24">24hr</option>
-            </select>
-            <br>
             <input type="file" name="file">
             <input type="submit" value="上傳">
         </form>
