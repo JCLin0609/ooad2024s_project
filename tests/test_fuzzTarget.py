@@ -20,7 +20,7 @@ def test_run(fuzz_target):
 
         # Assert
         assert result == True
-        mock.assert_called_once_with("test")
+        mock.assert_called_once_with(fuzz_target)
 
 
 def test_is_running(fuzz_target):

@@ -18,8 +18,9 @@ def upload():
     if request.method == 'GET':
         return render_template('upload.html')
     file = request.files['file']
+    is_input_by_file = request.form.get('isInputByFile') == 'on'
     if file:
-        result = uploadService.upload_fuzz_Target(file)
+        result = uploadService.upload_fuzz_Target(file, is_input_by_file)
         if result:
             flash(f'{file.filename} 上傳成功')
         else:
@@ -50,10 +51,10 @@ def target_report(targetName):
 @bp.route('/replay', methods=['GET'])
 def replay():
     target_name = request.args.get('targetName')
-    crash_num = request.args.get('crashNum')
+    crash_id = request.args.get('crashId')
     target_report_content = replayService.replay_target(
-        target_name, crash_num)
-    return render_template('replay.html', targetName=target_name, crash=crash_num, htmlContent=target_report_content)
+        target_name, crash_id)
+    return render_template('replay.html', targetName=target_name, crash=crash_id, htmlContent=target_report_content)
 
 
 @bp.route('/execute', methods=['POST'])

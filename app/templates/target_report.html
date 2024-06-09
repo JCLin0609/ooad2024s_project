@@ -28,10 +28,9 @@
                 <hr>
                 <form method="get" action="/replay" class="replay-form">
                     <input type="hidden" name="targetName" value="{{ target }}">
-                    <input type="hidden" name="crashNum" value="{{ crashed.get_data.num }}">
+                    <input type="hidden" name="crashId" value="{{ crashed.get_data.id }}">
                     <button type="submit">Replay</button>
                 </form>
-                <p><strong>Crash number:</strong> {{ crashed.get_data.num }}</p>
                 <p><strong>Crash ID:</strong> {{ crashed.get_data.id }}</p>
                 <p><strong>Signal Number:</strong> {{ crashed.get_data.signal_number }}</p>
                 <p><strong>Relative Time:</strong> {{ crashed.get_data.relative_time }}</p>

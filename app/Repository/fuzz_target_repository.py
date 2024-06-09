@@ -6,12 +6,13 @@ from app.models.fuzzData import FuzzData
 from app.models.fuzzResult import FuzzResult
 from app.models.fuzzStatus import FuzzStatus
 from app.models.fuzzTarget import FuzzTarget
+from app.models.fuzzConfig import FuzzConfig
 from pathlib import Path
 from flask import current_app
 
 
 class FuzzTargetRepository(IRepository):
-    def save(self, file: FileStorage, path: Path) -> bool:
+    def save(self, file: FileStorage, path: Path, config_json: str) -> bool:
         if file is None or file.filename is None or file.filename == '' or path.exists():
             return False
         try:
@@ -20,6 +21,7 @@ class FuzzTargetRepository(IRepository):
             file.save(save_path)
             save_path.chmod(0o777)
             self.__set_default_dir_and_seed(path)
+            self.__set_config_json(path, config_json)
             return True
         except Exception as e:
             return False
@@ -32,8 +34,9 @@ class FuzzTargetRepository(IRepository):
 
         fuzz_result = self.__get_fuzz_result_by_name(target_name)
         fuzz_status = self.__get_fuzz_status_by_name(target_name)
+        fuzz_config = self.__get_fuzz_config_by_name(target_name)
         return FuzzTarget(
-            target_name, target_path, fuzz_result, fuzz_status)
+            target_name, target_path, fuzz_result, fuzz_status, fuzz_config)
 
     def get_all(self) -> list[FuzzTarget]:
         names = self.get_all_fuzz_target_names()
@@ -72,6 +75,10 @@ class FuzzTargetRepository(IRepository):
             with open(input_dir / 'seed.txt', 'w') as f:
                 f.write("-")
 
+    def __set_config_json(self, path: Path, config_json: str):
+        with open(path / 'config.json', 'w') as f:
+            f.write(config_json)
+
     def __get_fuzz_status_by_name(self, name: str) -> FuzzStatus:
         fuzzer_stats = Path(
             current_app.config['UPLOAD_FOLDER']) / name / 'output' / 'default' / 'fuzzer_stats'
@@ -90,6 +97,13 @@ class FuzzTargetRepository(IRepository):
         crashes = self.__process_crash_dir(target_output_dir)
 
         return FuzzResult(fuzzData=fuzzData, crashes=crashes)
+
+    def __get_fuzz_config_by_name(self, name: str) -> FuzzConfig:
+        config_json = Path(
+            current_app.config['UPLOAD_FOLDER']) / name / 'config.json'
+        if not config_json.exists():
+            return None
+        return FuzzConfig.from_json(config_json.read_text())
 
     def __process_fuzz_data(self, output_dir: Path) -> list[FuzzData]:
         plot_data = output_dir / 'plot_data'
@@ -125,22 +139,21 @@ class FuzzTargetRepository(IRepository):
         ) if file.name.startswith('id:')]
 
         crashes = list[Crash]()
-        crash_num = 0
         for crash_file in crash_files:
-            crash = self.__process_crash_file(crash_file, crash_num)
+            crash = self.__process_crash_file(crash_file)
             if crash:
                 crashes.append(crash)
-                crash_num += 1
+                
+        crashes.sort(key=lambda x: x.id, reverse=True)
         return crashes
 
-    def __process_crash_file(self, crash_file: Path, crash_num: int) -> Crash:
+    def __process_crash_file(self, crash_file: Path) -> Crash:
         try:
             file_info = {k: v for k, v in (item.split(
                 ':')for item in crash_file.name.split(','))}
             with open(crash_file,  'r', encoding="utf-8", errors='ignore') as f:
                 file_content = f.read()
             crash = Crash(
-                num=crash_num,
                 id=file_info['id'],
                 signal_number=file_info['sig'],
                 relative_time=file_info['time'],

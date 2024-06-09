@@ -3,7 +3,7 @@
 {% block title %}Replay page{% endblock %}
 
 {% block content %}
-    <h1>Replay target {{ targetName }} for crash number {{ crash }}</h1>
+    <h1>Replay target {{ targetName }} for crash Id {{ crash }}</h1>
     <p>If not showing the crash replay result, you can refresh the page again.</p>
     <div class="terminal-output">
         {{ htmlContent|safe }}

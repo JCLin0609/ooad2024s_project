@@ -20,9 +20,9 @@ class FuzzResult:
     def num_fuzz_data(self) -> int:
         return len(self.__fuzzData)
 
-    def get_specific_crash(self, num: int) -> Crash:
+    def get_specific_crash(self, id: int) -> Crash:
         for crash in self.__crashes:
-            if crash.num == int(num):
+            if crash.id == int(id):
                 return crash
         return None
 

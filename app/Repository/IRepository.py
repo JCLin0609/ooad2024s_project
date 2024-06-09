@@ -6,7 +6,7 @@ from app.models.fuzzTarget import FuzzTarget
 
 class IRepository(ABC):
     @abstractmethod
-    def save(self, file: FileStorage, path: Path) -> bool:
+    def save(self, file: FileStorage, path: Path, config_json: str) -> bool:
         raise NotImplementedError
 
     @abstractmethod

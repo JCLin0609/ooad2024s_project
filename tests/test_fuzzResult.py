@@ -6,9 +6,9 @@ import pytest
 @pytest.fixture
 def fuzz_result():
     crashes = [
-        Crash(id=2, num=2, signal_number=11, relative_time=100,
+        Crash(id=2, signal_number=11, relative_time=100,
               execs=5, crashingInput="input", crash_path="path"),
-        Crash(id=2, num=2, signal_number=11, relative_time=100,
+        Crash(id=2, signal_number=11, relative_time=100,
               execs=5, crashingInput="input", crash_path="path")
     ]
     fuzz_data = [

@@ -1,8 +1,12 @@
-import os
 from pathlib import Path
+from ansi2html import Ansi2HTMLConverter
+from typing import TYPE_CHECKING
+import os
 import shlex
 import subprocess
-from ansi2html import Ansi2HTMLConverter
+
+if TYPE_CHECKING:
+    from app.models.fuzzTarget import FuzzTarget
 
 afl_path = Path("./AFLplusplus/afl-fuzz")
 afl_whatsup_path = Path("./AFLplusplus/afl-whatsup")
@@ -26,18 +30,21 @@ def is_target_running(target_name: str) -> bool:
     return "Fuzzers alive : 0" not in output
 
 
-def run_target(target_name: str):
+def run_target(fuzz_target: 'FuzzTarget'):
     try:
         stop_target()
         env = os.environ.copy()
         env['AFL_AUTORESUME'] = '1'
         env['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
-        target_path = fuzz_targets_path / target_name
-        binary_path = target_path / target_name
+
+        target_path = fuzz_target.dir_path
+        binary_path = fuzz_target.binary_path
         if not target_path.exists() or not binary_path.exists():
             return False
         command = (["tmux", "new-session", "-d", "-A", "-s", f"{tmux_session_name}", f"{afl_path}", "-i", f"{target_path}/input",
-                    "-o", f"{target_path}/output", f"{binary_path}", "@@"])
+                    "-o", f"{target_path}/output", f"{binary_path}"])
+        if fuzz_target.is_input_by_file():
+            command.append("@@")
         subprocess.Popen(command, stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE, env=env)
 
@@ -106,7 +113,7 @@ def kill_tmux_session(signum=None, frame=None):
                    stderr=subprocess.PIPE, text=True)
 
 
-def replay_crash(target_name, crash_path: str) -> str:
+def replay_crash(target_name, crash_path: str, is_input_by_file: bool) -> str:
     try:
         target_binary_path = str(fuzz_targets_path / target_name / target_name)
         crash_path = str(crash_path)
@@ -116,11 +123,15 @@ def replay_crash(target_name, crash_path: str) -> str:
 
         if not os.path.exists(crash_msg_path):
             command = f"touch {crash_msg_path}"
-            process = subprocess.run(shlex.split(
+            process = subprocess.Popen(shlex.split(
                 command), stdout=subprocess.PIPE)
             process.wait()
 
-        replay_command = f"script -c '{target_binary_path} {crash_path}' {crash_msg_path}"
+        if is_input_by_file:
+            replay_command = f"script -c '{target_binary_path} {crash_path}' {crash_msg_path}"
+        else:
+            replay_command = f"script -c 'cat {crash_path} | {target_binary_path}' {crash_msg_path}"
+            
         process = subprocess.Popen(
             shlex.split(replay_command), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         process.wait()

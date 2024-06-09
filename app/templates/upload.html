@@ -15,6 +15,9 @@
         {% endwith %}
         <p>上傳檔案</p>
         <form action="{{ url_for('afl_controller.upload') }}" method="post" enctype="multipart/form-data">
+            <label for="isInputByFile">使用文件作為輸入:</label>
+            <input type="checkbox" name="isInputByFile" id="isInputByFile">
+            <br>
             <input type="file" name="file">
             <input type="submit" value="上傳">
         </form>
