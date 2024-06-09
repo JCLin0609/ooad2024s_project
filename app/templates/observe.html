@@ -4,7 +4,9 @@
 
 {% block content %}
     <div class="iframe-container">
-        <iframe id="ttyd-iframe" src="http://localhost:5001/" width="650" height="400"></iframe>
+        <div style="transform: scale(1.3); width: 650px; height: 400px; pointer-events: none; padding-top: 70px;">
+            <iframe style="transform: scale(1.3);  width:650px; height:400px;" id="ttyd-iframe" src="http://localhost:5001/" ></iframe>
+        </div>
     </div>
     <script>
         window.onload = function() {

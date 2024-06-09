@@ -131,12 +131,12 @@ def replay_crash(target_name, crash_path: str, is_input_by_file: bool) -> str:
             replay_command = f"script -c '{target_binary_path} {crash_path}' {crash_msg_path}"
         else:
             replay_command = f"script -c 'cat {crash_path} | {target_binary_path}' {crash_msg_path}"
-            
+
         process = subprocess.Popen(
             shlex.split(replay_command), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         process.wait()
 
-        with open(crash_msg_path, 'r') as file:
+        with open(crash_msg_path, 'r', errors='ignore') as file:
             crash_output_content = file.read()
 
         conv = Ansi2HTMLConverter()
