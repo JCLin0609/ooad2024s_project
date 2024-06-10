@@ -114,30 +114,25 @@ def kill_tmux_session(signum=None, frame=None):
                    stderr=subprocess.PIPE, text=True)
 
 
-def replay_crash(target_name, crash_path: str, is_input_by_file: bool) -> str:
+def replay_crash(target_name: str, crash_path: str, is_input_by_file: bool) -> str:
     try:
-        target_binary_path = str(fuzz_targets_path / target_name / target_name)
-        crash_path = str(crash_path)
-        crash_msg_path_parts = crash_path.rsplit("/", 1)
-        crash_msg_path = "{}/report_{}.txt".format(
-            crash_msg_path_parts[0], crash_msg_path_parts[1])
-
-        if not os.path.exists(crash_msg_path):
-            command = f"touch {crash_msg_path}"
-            process = subprocess.Popen(shlex.split(
-                command), stdout=subprocess.PIPE)
-            process.wait()
-
+        target_binary_path = fuzz_targets_path / target_name / target_name
+        crash_input_path = Path(crash_path)
+        crash_report_dir = crash_input_path.parent.parent / "reports" # output/default/reports
+        
+        crash_report_dir.mkdir(parents=True, exist_ok=True)
+        crash_report_path = crash_report_dir / f"{crash_input_path.name}.txt"
+        
         if is_input_by_file:
-            replay_command = f"script -c '{target_binary_path} {crash_path}' {crash_msg_path}"
+            replay_command = f"script -c '{target_binary_path} {crash_input_path}' {crash_report_path}"
         else:
-            replay_command = f"script -c 'cat {crash_path} | {target_binary_path}' {crash_msg_path}"
+            replay_command = f"script -c 'cat {crash_input_path} | {target_binary_path}' {crash_report_path}"
 
         process = subprocess.Popen(
             shlex.split(replay_command), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         process.wait()
 
-        with open(crash_msg_path, 'r', errors='ignore') as file:
+        with open(crash_report_path, 'r', errors='ignore') as file:
             crash_output_content = file.read()
 
         conv = Ansi2HTMLConverter()
