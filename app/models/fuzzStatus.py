@@ -11,7 +11,7 @@ class FuzzStatus:
                  execs_since_crash: int = 0, exec_timeout: int = 0, slowest_exec_ms: int = 0, peak_rss_mb: int = 0,
                  cpu_affinity: int = 0, edges_found: int = 0, total_edges: int = 0, var_byte_count: int = 0, havoc_expansion: int = 0,
                  auto_dict_entries: int = 0, testcache_size: int = 0, testcache_count: int = 0, testcache_evict: int = 0,
-                 afl_banner: str = '', afl_version: str = '', target_mode: str = '', command_line: str = ''):
+                 afl_banner: str = '', afl_version: str = '', target_mode: str = '', command_line: str = '',  **kwargs):
         self.start_time = start_time
         self.last_update = last_update
         self.run_time = run_time
