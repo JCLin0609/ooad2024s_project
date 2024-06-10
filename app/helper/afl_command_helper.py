@@ -94,6 +94,7 @@ def plot_fuzz_imgs(target_name: str) -> None:
     try:
         target_path = fuzz_targets_path / target_name / "output" / "default"
         output_path = fuzz_targets_img_path / target_name
+        output_path.mkdir(parents=True, exist_ok=True)
         command = f"{afl_plot_path} {target_path} {output_path}"
         subprocess.run(shlex.split(command), stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE, text=True)
