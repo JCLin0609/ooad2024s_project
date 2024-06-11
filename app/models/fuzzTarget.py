@@ -20,8 +20,6 @@ class FuzzTarget:
         return afl_command_helper.run_target(self)
 
     def is_running(self) -> bool:
-        if self.__is_running is not None:
-            return self.__is_running
         self.__is_running = afl_command_helper.is_target_running(self.name)
         return self.__is_running
 
@@ -40,15 +38,9 @@ class FuzzTarget:
 
     def delete(self) -> bool:
         return afl_command_helper.delete_target(self.name)
-
-    def check_target_bin(self) -> bool:
-        pass
-
+    
     def replay(self, crash_id: int) -> str:
         crash = self.fuzz_result.get_specific_crash(id=crash_id)
         replay_content = afl_command_helper.replay_crash(
             self.name, crash.crash_path, self.is_input_by_file())
         return replay_content
-
-    def get_target_status(self) -> FuzzStatus:
-        pass
