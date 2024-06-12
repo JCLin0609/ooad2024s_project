@@ -33,7 +33,8 @@ class AFLService:
         target = self.current_running_target()
         if target is None:
             return False
-        return target.stop()
+        target.stop()
+        return True
 
     def delete_target(self, target_name: list[str]) -> bool:
         try:
@@ -46,6 +47,3 @@ class AFLService:
         except Exception as e:
             print(f"Error deleting target: {e}")
             return False
-
-    def replay_fuzz_target(self) -> None:
-        pass
