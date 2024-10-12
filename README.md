@@ -1,11 +1,7 @@
 # AFL GUI Tool
 
 ## Usage
-1. Put AFLplusplus installation into the folder:
-
-Install AFLplusplus from https://github.com/AFLplusplus/AFLplusplus
-
-3. Running:
+Running:
 
 ./deps.sh
 
