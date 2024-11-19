@@ -1,4 +1,5 @@
 # AFL GUI Tool
+Project detail is documented in Project_documentation.pdf, which is the design document.
 
 ## Usage
 Running:
